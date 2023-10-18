@@ -5,9 +5,6 @@ import ImageGalleryItem from "./ImageGalleryItem";
 
 
 class App extends Component {
-  // const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
-
-  // {/* https://pixabay.com/api/?q=cat&page=1&key=${IPA_KEY }&image_type=photo&orientation=horizontal&per_page=12 */ }
  
   state = {
     name: '',

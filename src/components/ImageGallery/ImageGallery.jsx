@@ -9,6 +9,7 @@ class ImageGallery extends Component {
       nameImage: [],
       loading: false,
       error: null,
+      // images:[]
     }
 
   componentDidUpdate(prevProps, prevState) {
@@ -24,10 +25,12 @@ class ImageGallery extends Component {
             new Error(`Нажаль картинок з вашим пошуком ${this.state.name}, не має`)
           );
         })
-        .then(images => this.setState({ nameImage: images }))
+        .then(images => this.setState(prevState => ({ nameImage: prevState.nameImage, ...images })))
+        // .then(images => this.setState({ nameImage: images }))
+        // .then(images => this.setState({ nameImage: [images] }))
         .catch(error => this.setState({error}))
         .finally(this.setState({ loading: false }))
-      // .then(images => this.setState({ nameImage: [images] }))    
+    
     }
 
   }
@@ -47,12 +50,17 @@ class ImageGallery extends Component {
 
   ImageGalleryMap = ({images }) => {
     return (<ul className={css.ImageGallery}>
-        {images.map(({id, webformatURL, largeImageURL}) =>
-            <ImageGalleryItem
+      {images.map(({ id, webformatURL, largeImageURL }) =>
+        <ImageGalleryItem
                 key={id}
                 webformatURL={webformatURL}
-                largeImageURL={largeImageURL}
-          />)}    
+                largeImageURL={largeImageURL} /> )
+            } 
+      {/* {images.map((image) => {
+          return <li key={image.id} className={css.ImageGalleryItem }>       
+      <img src={image.webformatURL} alt="" large={image.largeImageURL} className={css.ImageGalleryItem } />
+  </li>})
+            }  */}
 
     </ul>)
 }
@@ -61,7 +69,7 @@ class ImageGallery extends Component {
     const { nameImage } = this.state;
     const { loading } = this.state;
     const { error } = this.state;
-    const { name } = this.props;
+    // const { name } = this.props;
     
     return ( 
       <div>
@@ -69,7 +77,7 @@ class ImageGallery extends Component {
         {loading && <div>Loading</div>} 
         {nameImage && <ul className={css.ImageGallery}>
           {nameImage.map(({ id, webformatURL, largeImageURL }) =>
-            <ImageGalleryItem
+           <ImageGalleryItem
               key={id}
               webformatURL={webformatURL}
               largeImageURL={largeImageURL}
