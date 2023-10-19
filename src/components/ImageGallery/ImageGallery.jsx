@@ -71,6 +71,7 @@ class ImageGallery extends Component {
     const { error } = this.state;
     // const { name } = this.props;
     
+    console.log(nameImage)
     return ( 
       <div>
         {error && <div><p>{error.message}</p></div>}
