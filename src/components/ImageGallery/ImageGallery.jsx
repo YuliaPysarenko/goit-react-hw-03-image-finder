@@ -6,10 +6,11 @@ const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
 
 class ImageGallery extends Component {
     state = {
-      nameImage: [],
+      items: [],
+    
       loading: false,
       error: null,
-      // images:[]
+  
     }
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,59 +26,49 @@ class ImageGallery extends Component {
             new Error(`Нажаль картинок з вашим пошуком ${this.state.name}, не має`)
           );
         })
-        .then(images => this.setState(prevState => ({ nameImage: prevState.nameImage, ...images })))
-        // .then(images => this.setState({ nameImage: images }))
-        // .then(images => this.setState({ nameImage: [images] }))
+        .then(images => this.setState(prevState => ({ items: prevState.items, ...images })))
+        // .then(response => response.images)
+        //  .then(images => this.setState({ items: [...images] }))
+        // .then(images => this.setState({ items: [images] }))
+      
         .catch(error => this.setState({error}))
-        .finally(this.setState({ loading: false }))
+        .finally(() => this.setState({ loading: false }))
     
     }
 
   }
 
-  
-//   renderResponse = (images) => {
-//     const images = images.map((image) => {
-//       return `
-//     <li key=${this.state.nameImage.id} className=${css.galleryItem}>        
-//        <img src=${image.webformatURL} alt="" loading="lazy" ${image.largeImageURL}/>
-//        </li>
-// `
-//     })
-//     .join(""); 
-//   // link.gallery.insertAdjacentHTML('beforeend', images);
+
+//   ImageGalleryMap = ({images }) => {
+//     return (<ul className={css.ImageGallery}>
+//       {images.map(({ id, webformatURL, largeImageURL }) =>
+//         <ImageGalleryItem
+//                 key={id}
+//                 webformatURL={webformatURL}
+//                 largeImageURL={largeImageURL} /> )
+//             } 
+//       {/* {images.map((image) => {
+//           return <li key={image.id} className={css.ImageGalleryItem }>       
+//       <img src={image.webformatURL} alt="" large={image.largeImageURL} className={css.ImageGalleryItem } />
+//   </li>})
+//             }  */}
+
+//     </ul>)
 // }
 
-  ImageGalleryMap = ({images }) => {
-    return (<ul className={css.ImageGallery}>
-      {images.map(({ id, webformatURL, largeImageURL }) =>
-        <ImageGalleryItem
-                key={id}
-                webformatURL={webformatURL}
-                largeImageURL={largeImageURL} /> )
-            } 
-      {/* {images.map((image) => {
-          return <li key={image.id} className={css.ImageGalleryItem }>       
-      <img src={image.webformatURL} alt="" large={image.largeImageURL} className={css.ImageGalleryItem } />
-  </li>})
-            }  */}
-
-    </ul>)
-}
-
   render() {
-    const { nameImage } = this.state;
+    const { items } = this.state;
     const { loading } = this.state;
     const { error } = this.state;
     // const { name } = this.props;
     
-    console.log(nameImage)
+    console.log(items)
     return ( 
       <div>
         {error && <div><p>{error.message}</p></div>}
         {loading && <div>Loading</div>} 
-        {nameImage && <ul className={css.ImageGallery}>
-          {nameImage.map(({ id, webformatURL, largeImageURL }) =>
+        {items && <ul className={css.ImageGallery}>
+          {items.map(({ id, webformatURL, largeImageURL }) =>
            <ImageGalleryItem
               key={id}
               webformatURL={webformatURL}
@@ -88,11 +79,11 @@ class ImageGallery extends Component {
     </div>
      )
     
-//     <ul class="gallery">
-//            {nameImage && 
-//              <li key={this.state.nameImage.id} class="gallery-item">  
+//     <ul class={css.gallery}>
+//            {items && 
+//              <li key={this.state.items.id} class={css.galleryItem}>  
 //        {/* {this.props.name} */}       
-//        <img src={this.state.nameImage.webformatURL} alt="" />
+//        <img src={this.state.items.webformatURL} alt="" />
 //            </li>
 //            } 
 // </ul>    
