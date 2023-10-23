@@ -1,13 +1,13 @@
 import React from 'react';
 import css from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ id, webformatURL, largeImageURL}) => {
+function ImageGalleryItem({item}) {
   return (
-    <li key={id} className={css.ImageGalleryItem }>       
-      <img src={webformatURL} alt="" large={largeImageURL} className={css.ImageGalleryItem } />
-  </li>
-        )}    
-
-    
-
+    <li key={item.id} className={css.ImageGalleryItem}>
+          <img src={item.webformatURL} large={item.largeImageURL} alt="" className={css.ImageGalleryItemImage} />
+        </li>
+  )
+}
+  
+      
 export default ImageGalleryItem;
