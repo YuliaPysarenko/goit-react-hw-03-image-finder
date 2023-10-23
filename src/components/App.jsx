@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Searchbar from "./Searchbar";
 import ImageGallery from "./ImageGallery";
 import Button from "./Button";
-import axios from "axios";
+// import axios from "axios";
 // import ImageGalleryItem from "./ImageGalleryItem";
 // import css from './App.module.css';
 
