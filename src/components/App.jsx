@@ -79,29 +79,22 @@ class App extends Component {
 //    }
   
   onFetchPixabey = () => {
-          fetch(`https://pixabay.com/api/?q=${this.state.name}&page=1&key=${IPA_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
-        .then(response => {
-          if (response.ok) {
-            return response.json()
-          }
-          return Promise.reject(
-            new Error(`Нажаль картинок з вашим пошуком ${this.state.name}, не має`)
-          );
-        })
-       .then(response => {
-          if (response.ok) {
-            return response.json()
-          }
-          return Promise.reject(
-            new Error(`Нажаль картинок з вашим пошуком ${this.state.name}, не має`)
-          );
-        })
-     .then(result => this.setState({ items: result.hits, showButton: true }))
+   fetch(`https://pixabay.com/api/?q=${this.state.name}&page=1&key=${IPA_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        }
+        return Promise.reject(
+          new Error(`Нажаль картинок з вашим пошуком ${this.state.name}, не має`)
+        );
+      })
+      // .then(data => this.setState({ items: data.hits, showButton: true }))
+     .then(data => this.setState(prevState => ({items: [ ...prevState.items, ...data.hits], showButton: true}))) 
      .catch(error => this.setState({error}))
-      .finally(() => this.setState({ loading: false }))
+     .finally(() => this.setState({loading: false}))
     
-      this.incrementPage();
-      this.remainderInTotalHits();
+      // this.incrementPage();
+      // this.remainderInTotalHits();
     
   }
   
@@ -157,10 +150,23 @@ class App extends Component {
   // }
 
     onClickButton = () => {
- this.onFetchPixabey()
+      this.onFetchPixabey()
+      // this.setState(prevState => ({
+      // items: [...prevState.items, items], 
+      // loading: false,
+      // }))
+      this.incrementPage();
+      this.remainderInTotalHits();
   }
 
-
+  //   onClickButton = () => {
+     
+  //     this.setState(prevState => ({
+  //     items: [...prevState.items, items], 
+  //     loading: false,
+  //     })) 
+  // }
+  
  isAndTotalImage() {
    if (this.totalHits <= 12) {
      this.setState({showButton: false})
@@ -179,7 +185,8 @@ class App extends Component {
        {error && <div><p>{error.message}</p></div>}
          {loading && <div>Loading</div>}
            {items && <ImageGallery items={items} />}  
-          {showButton && <Button onClick={this.onClickButton} />}
+            {showButton && <Button onClick={() => this.onClickButton()} />} 
+               {/* {showButton && <Button onClick={this.onFetchPixabey} />} */}
         </div>
       </div>
     )
