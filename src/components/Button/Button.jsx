@@ -1,55 +1,28 @@
+import { Component } from 'react';
 import css from './Button.module.css';
+// import React from "react";
 
-
-// class Button extends Component {
+class Button extends Component {
  
-//     state = {
-//         totalHits: 0,
-//         page: 1,
-//         per_page: 12,
-//         total: 0,
-//         showButton: false,
-//   }
-  
-//   componentDidUpdate(prevProps, prevState) {
-  
-//     if (prevState.page) {
-//       //  await this.fetchPixabay();
-//     //  this.onFetchPixabey();
-//       this.props.onClick()
-      
-//     }
-//   }
+   onButtonClick = () => {
+       this.props.onLoadMore()
+   }
 
-//  remainderInTotalHits = () => {
-//      this.total = this.totalImg - this.page * this.per_page; 
-// }
-
-//   incrementPage = () => {
-//     this.setState(prevState =>({ page: prevState.page +=1}))
-//     // this.page += 1;
-//   }
-
-//   resetPage = () => {
-//     this.page = 1;
-//   }
-  
-
-//     render() {
-//            return (
-//         <div>
-//             <button  onClick={onClick} className={css.Button} type="button">Load more</button>
-//         </div>  
-//     )
-//     }
-// }
-
- function Button(onClick) {
-    return (
-       <div>
-            <button onClick={onClick} className={css.Button} type="button">Load more</button>
+    render() {
+           return (
+        <div>
+            <button onClick={this.onButtonClick} className={css.Button} type="button">Load more</button>
         </div>  
     )
- }
+    }
+}
+
+// function Button (onLoadMore) {
+//     return (
+//        <div>
+//             <button onClick={onLoadMore} className={css.Button} type="button">Load more</button>
+//         </div>  
+//     )
+//  }
 
 export default Button;
