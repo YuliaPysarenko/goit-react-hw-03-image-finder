@@ -25,12 +25,6 @@ class App extends Component {
 
   
   componentDidUpdate(prevProps, prevState) {
-    // if (prevState.name !== this.state.name) {
-    //   this.setState({ page: 1, items: [], showButton: false });
-    // }
-      // if (this.state.page === 1) {
-      //   this.onFetchPixabey();
-      // }
 
     if (prevState.name !== this.state.name) {
       this.setState({ loading: true })
@@ -38,10 +32,9 @@ class App extends Component {
     }
 
      if (prevState.page !== this.state.page) {
-          this.setState({ loading: true })
-      this.onFetchPixabey();
-      //  this.remainderInTotalHits()
-      // this.incrementPage()
+      this.setState({ loading: true })
+       this.onFetchPixabey();
+     
     }
  
   }
@@ -70,7 +63,7 @@ class App extends Component {
 //    }
   
   onFetchPixabey = () => {
-    fetch(`https://pixabay.com/api/?q=${this.state.name}&page=1&key=${IPA_KEY}&image_type=photo&orientation=horizontal&per_page=12`)
+    fetch(`https://pixabay.com/api/?q=${this.state.name}&page=${this.state.page}&key=${IPA_KEY}&image_type=photo&orientation=horizontal&per_page=${this.state.per_page}`)
       .then(response => {
         if (response.ok) {
           return response.json()
@@ -79,46 +72,54 @@ class App extends Component {
           new Error(`Нажаль картинок з вашим пошуком ${this.state.name}, не має`)
         );
       })
-        // .then(data => this.setState({items: [...data.hits], showButton: true}))
-      // .then(data => this.setState(prevState => ({items: [prevState.items, ...data.hits], showButton: true}))) 
-        .then(data => this.setState(prevState => ({items: [ ...prevState.items, ...data.hits], showButton: true}))) 
-      //  .then(data => this.setState(prevState => ({items: [...data.hits, prevState.items], showButton: true})))
-      // .then(data=> this.setState({ items: [...data.hits, items], showButton: true }))
+      .then(data => this.setState(prevState => ({
+        items: [...prevState.items, ...data.hits],
+        totalHits: data.totalHits,
+        showButton: true
+      })))
      .catch(error => this.setState({error}))
      .finally(() => this.setState({loading: false}))
     
       // this.incrementPage();
-      // this.remainderInTotalHits();
+      // this.isAndTotalImage();
+    // this.remainderInTotalHits()
     
   }
   
   remainderInTotalHits = () => {
-    const total = this.state.totalHits - this.state.page * this.state.per_page; 
-    this.setState({total: total})
-}
+    const { totalHits, page, per_page } = this.state;
+    this.setState({ total:  totalHits - page * per_page }) 
+ }
+  
+  
+  isAndTotalImage = () => {
+     this.remainderInTotalHits();
+
+    const { total } = this.state;
+   if (total <= 12) {
+     this.setState({showButton: false})
+  //  window.alert("We're sorry, but you've reached the end of search results.")
+  } 
+  }
+  
 
   incrementPage = () => {
-    this.setState(prevState =>({ page: prevState.page + 1}))
-    // this.page += 1;
+    this.setState(prevState => ({ page: prevState.page + 1 }))  
   }
 
-  resetPage = () => {
-    this.page = 1;
-  }
+  // resetPage = () => {
+  //   this.state.page = 1;
+  // }
 
   handleFormSabmit = (nameForm) => {
     this.setState({
       name: nameForm,
       //  items: [],
     })
-    //  this.onFetchPixabey();
+
+    // this.isAndTotalImage();
   }
 
- isAndTotalImage() {
-   if (this.totalHits <= 12) {
-     this.setState({showButton: false})
-  } 
-  }
   
   render() {
     const { items } = this.state;
@@ -133,8 +134,8 @@ class App extends Component {
        {error && <div><p>{error.message}</p></div>}
          {loading && <div>Loading</div>}
            {items && <ImageGallery items={items} />}  
-            {showButton && <Button onLoadMore={this.incrementPage} />} 
-       
+          {showButton && <Button onLoadMore={this.incrementPage}  totalHits={this.isAndTotalImage}/>} 
+ {/* totalHits={this.isAndTotalImage} */}
         </div>
       </div>
     )

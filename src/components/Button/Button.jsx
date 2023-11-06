@@ -5,13 +5,15 @@ import css from './Button.module.css';
 class Button extends Component {
  
    onButtonClick = () => {
-       this.props.onLoadMore()
+       this.props.onLoadMore();
+       this.props.totalHits();
+     
    }
 
     render() {
            return (
         <div>
-            <button onClick={this.onButtonClick} className={css.Button} type="button">Load more</button>
+            <button onClick={this.onButtonClick}  className={css.Button} type="button">Load more</button>
         </div>  
     )
     }
