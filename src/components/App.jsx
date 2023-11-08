@@ -4,7 +4,7 @@ import ImageGallery from "./ImageGallery";
 import Button from "./Button";
 import Loader from "./Loader";
 import Modal from "./Modal";
-import * as basicLightbox from 'basiclightbox'
+// import * as basicLightbox from 'basiclightbox'
 const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
 
 class App extends Component {
@@ -19,9 +19,10 @@ class App extends Component {
     loading: false,
     showButton: false,
     showModal: false,
+    largeImg: ''
   }
 
-    componentDidUpdate(_, prevState) {
+  componentDidUpdate(_, prevState) {
     if (
       prevState.name !== this.state.name ||
       prevState.page !== this.state.page
@@ -32,6 +33,10 @@ class App extends Component {
         }
       });
     }
+
+    // if (prevState.largeImg !== this.state.largeImg) {
+    //   this.setState
+    // }
   }
   
   onFetchPixabey = () => {
@@ -60,7 +65,7 @@ class App extends Component {
       .finally(() => this.setState({ loading: false }));
   };
 
-    remainderInTotalHits = () => {
+  remainderInTotalHits = () => {
     const { totalHits, items } = this.state;
     const countOfNotRenderesItems = totalHits - items.length;
     if (countOfNotRenderesItems <= 12) {
@@ -69,7 +74,7 @@ class App extends Component {
   };
   
   incrementPage = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));  
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   }
 
   // resetPage = () => {
@@ -84,48 +89,46 @@ class App extends Component {
     });
   };
 
-  toggalModal = (e) => {
-    if (e.target) {
-       this.setState(modal => ({
-      showModal: !modal.showModal
-    }))
-    }
+  largeImage = (largeImageURL) => {
+    this.setState({
+      largeImg: largeImageURL,
+      showModal: true
+    })
+    //    this.setState(prevState => ({
+    //   contacts: prevState.contacts.filter(contact=> contact.id !== idcontact)
+    //    }))
+    //    this.setState(prevState => ({
+    //   largeImg: prevState.filter(large=> large.largeImageURL !== largeImageURL)
+    // }))
   }
 
-  openModal = () => {
-    this.state.items.map(item =>
-    basicLightbox.create(`
-   <img src=${item.largeImageURL} alt="" width="800" height="600"> 
-`).show())
-//   const instance = basicLightbox.create(`
-//    <img src=${} alt="" width="800" height="600"> 
-// `)
-
-// instance.show()
-}
+  toggalModal = () => {
+      this.setState(modal => ({
+        showModal: !modal.showModal
+      }))
+  }  
   
   render() {
     const { items } = this.state;
     const { loading } = this.state;
     const { error } = this.state;
     const { showButton } = this.state;
-    const { showModal } = this.state;
+    // const { showModal } = this.state;
+    // const { largeImg } = this.state;
  
     return (
-     <div>
-      <Searchbar onSubmit={this.handleFormSabmit} />
-      {error && <div><p>{error.message}</p></div>}
-      {loading && <Loader/>}
-      {items && <ImageGallery items={items}/>}  
-      {showButton && <Button onLoadMore={this.incrementPage} />} 
-        {showModal && <Modal closeClick={this.toggalModal}>
-        {items.map(item =>(<img src={item.largeImageURL} alt="" width="800" height="600"></img>))}
-   
-        </Modal>}
-          {/* {this.openModal}</Modal>} */}
-      {/* <img src="largeImageURL" alt="" width="800" height="600" onClick={this.toggalModal} /></Modal>} */}
-  </div>
-    )}
+      <div>
+        <Searchbar onSubmit={this.handleFormSabmit}/>
+        {error && <div><p>{error.message}</p></div>}
+        {loading && <Loader />}
+        {items && <ImageGallery items={items} onOpenLarge={this.largeImage}/>}
+        {showButton && <Button onLoadMore={this.incrementPage}/>}
+     
+        {/* <Modal large={largeImg}/> */}
+            <Modal/>
+      </div>
+    )
+  }
 }
 
 export default App;
