@@ -32,6 +32,10 @@ class App extends Component {
           this.remainderInTotalHits();
         }
       });
+
+    //    if (prevState.largeImg !== this.state.largeImg) {
+    //   this.toggalModal()
+    // }
     }
 
     // if (prevState.largeImg !== this.state.largeImg) {
@@ -89,33 +93,32 @@ class App extends Component {
     });
   };
 
-  largeImage = (largeImageURL) => {
+  largeImage = largeImageURL => {
     this.setState({
       largeImg: largeImageURL,
-      showModal: true
+      //  showModal: true,
     })
-    //    this.setState(prevState => ({
-    //   contacts: prevState.contacts.filter(contact=> contact.id !== idcontact)
-    //    }))
-    //    this.setState(prevState => ({
-    //   largeImg: prevState.filter(large=> large.largeImageURL !== largeImageURL)
-    // }))
+  //  this.toggalModal()  
   }
 
   toggalModal = () => {
-      this.setState(modal => ({
-        showModal: !modal.showModal
+      this.setState(({showModal}) => ({
+        showModal: !showModal
       }))
   }  
   
+  showModalWithLargeImg = () => {
+    if (this.state.largeImg !== '') {
+    //   this.setState({
+    //   showModal: true
+    // })
+      this.toggalModal()
+    }
+}
+
   render() {
-    const { items } = this.state;
-    const { loading } = this.state;
-    const { error } = this.state;
-    const { showButton } = this.state;
-    // const { showModal } = this.state;
-    // const { largeImg } = this.state;
- 
+    const { items, loading, error,showButton,largeImg, showModal} = this.state;
+
     return (
       <div>
         <Searchbar onSubmit={this.handleFormSabmit}/>
@@ -125,7 +128,9 @@ class App extends Component {
         {showButton && <Button onLoadMore={this.incrementPage}/>}
      
         {/* <Modal large={largeImg}/> */}
-            <Modal/>
+      {/* { largeImg && <Modal large={largeImg}/>}  */}
+    
+       {showModal && <Modal large={largeImg}/>} 
       </div>
     )
   }
