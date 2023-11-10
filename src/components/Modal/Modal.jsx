@@ -75,8 +75,8 @@ class Modal extends Component {
        return createPortal(
        <div className={css.Overlay}>
       <div className={css.Modal}> 
-       <img src={large} alt="" width="800" height="600"/> 
-      {/* <img src={this.showModalLargeImg} alt="" width="800" height="600"/> */}
+       {/* <img src={large} alt="" width="800" height="600"/>  */}
+      <img src={this.showModalLargeImg} alt="" width="800" height="600"/>
        
       </div>
     </div>,
