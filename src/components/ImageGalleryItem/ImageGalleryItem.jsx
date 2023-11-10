@@ -12,15 +12,6 @@ const ImageGalleryItem = ({ id, largeImageURL, webformatURL, openLargeImg }) => 
   )
 }
 
-// function ImageGalleryItem ({ id, largeImageURL, webformatURL, openLargeImg }) {
-
-//   return (
-//     <li key={id} className={css.ImageGalleryItem} onClick={() => openLargeImg(largeImageURL)}>
-//       <img src={webformatURL} large={largeImageURL} alt="" className={css.ImageGalleryItemImage}/>
-//         </li>
-//   )
-// }
-
 ImageGalleryItem.protoType = {
     id: PropTypes.string.isRequired,
     largeImageURL: PropTypes.string.isRequired,

@@ -4,6 +4,7 @@ import ImageGallery from "./ImageGallery";
 import Button from "./Button";
 import Loader from "./Loader";
 import Modal from "./Modal";
+// import css from "./App.module.css"
 // import * as basicLightbox from 'basiclightbox'
 const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
 
@@ -32,15 +33,7 @@ class App extends Component {
           this.remainderInTotalHits();
         }
       });
-
-    //    if (prevState.largeImg !== this.state.largeImg) {
-    //   this.toggalModal()
-    // }
     }
-
-    // if (prevState.largeImg !== this.state.largeImg) {
-    //   this.setState
-    // }
   }
   
   onFetchPixabey = () => {
@@ -93,44 +86,52 @@ class App extends Component {
     });
   };
 
-  largeImage = largeImageURL => {
+  largeImage = (largeImageURL) => {
     this.setState({
       largeImg: largeImageURL,
       //  showModal: true,
     })
+
+      // this.props.large(this.state.largeImg);
   //  this.toggalModal()  
   }
 
-  toggalModal = () => {
-      this.setState(({showModal}) => ({
-        showModal: !showModal
-      }))
-  }  
+  // toggalModal = () => {
+  //     this.setState(({showModal}) => ({
+  //       showModal: !showModal
+  //     }))
+  // }  
   
-  showModalWithLargeImg = () => {
-    if (this.state.largeImg !== '') {
-    //   this.setState({
-    //   showModal: true
-    // })
-      this.toggalModal()
-    }
-}
+//   propsLargeImg = () => {
+//     // if (this.state.largeImg !== '') {
+//     // //   this.setState({
+//     // //   showModal: true
+//     // // })
+//     //   this.toggalModal()
+//     // }
+//   this.props.large(this.state.largeImg);
+// }
 
   render() {
-    const { items, loading, error,showButton,largeImg, showModal} = this.state;
-
-    return (
+    const { items, loading, error,showButton,largeImg} = this.state;
+   return (
       <div>
         <Searchbar onSubmit={this.handleFormSabmit}/>
         {error && <div><p>{error.message}</p></div>}
         {loading && <Loader />}
         {items && <ImageGallery items={items} onOpenLarge={this.largeImage}/>}
         {showButton && <Button onLoadMore={this.incrementPage}/>}
-     
-        {/* <Modal large={largeImg}/> */}
-      {/* { largeImg && <Modal large={largeImg}/>}  */}
-    
-       {showModal && <Modal large={largeImg}/>} 
+      {/* { largeImg && <Modal large={largeImg}/>}  */}     
+       {/* {this.state.largeImg && <Modal large={largeImg}/>}   */}
+            {/* {largeImg &&  <div className={css.Overlay} >
+      <div className={css.Modal}>
+      <img src={largeImg} alt="" width="800" height="600"/>
+      </div>
+    </div>}   */} 
+       {largeImg && <Modal large={largeImg} />}
+       {console.log(this.props.large)}
+      
+       
       </div>
     )
   }

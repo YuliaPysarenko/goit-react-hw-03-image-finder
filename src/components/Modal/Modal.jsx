@@ -7,7 +7,7 @@ const modalRoot = document.querySelector(`#modal-root`);
 class Modal extends Component {
   state = {
     showModal: false,
-    largeImage: '',
+    // largeImage: '',
   }
   
   componentDidMount() {
@@ -49,124 +49,69 @@ class Modal extends Component {
   //   }));
   // }
   
-  propsLargeImg = (largeImg) => {
-    // this.props.large(this.state.largeImage);
-//     if (this.props.large) {
-//          this.setState({
-//   // largeImage: this.props.large(),
-//      largeImage: largeImg,
-//       showModal:true,
-// })
-//     }
-    this.setState({
-      largeImg: largeImg,
-      // showModal: true
- })
-  }
-  
-  
-  // render() {
-  //       return (
-  //      <div className={css.Overlay} >
-  //     <div className={css.Modal}>
-  //        <img src={this.propsLargeImg} alt="" width="800" height="600"/>
-  //           {/* <img src="" alt=""/> */}
-  //     </div>
-  //         </div>
-  //       )
-// }
-  // onClick={this.handelEscape}
+//   propsLargeImg = (largeImg) => {
+//     // this.props.large(this.state.largeImage);
+// //     if (this.props.large) {
+// //          this.setState({
+// //   // largeImage: this.props.large(),
+// //      largeImage: largeImg,
+// //       showModal:true,
+// // })
+// //     }
+//     this.setState({
+//       largeImg: largeImg,
+//       // showModal: true
+//  })
+//   }
+     showModalLargeImg = () => {
+       this.props.large();
+       console.log(this.props.large)
+    }
   
   render() {
-    // const { large } = this.props;
-
+    const { large } = this.props;
+    console.log(this.props.large)
+    
        return createPortal(
-       <div className={css.Overlay} >
-      <div className={css.Modal} >
-             {/* <img src={large} alt="" width="800" height="600"/> */}
-      <img src={this.propsLargeImg} alt="" width="800" height="600"/>
-            {/* <img src="" alt=""/> */}
+       <div className={css.Overlay}>
+      <div className={css.Modal}> 
+       <img src={large} alt="" width="800" height="600"/> 
+      {/* <img src={this.showModalLargeImg} alt="" width="800" height="600"/> */}
+       
       </div>
     </div>,
       modalRoot,)
   }
   }
 
-
-// const Modal = ({large}) => {
- 
-//        return (
-//        <div className={css.Overlay} >
-//       <div className={css.Modal} >
-//            <img src={large} alt="" width="800" height="600"/>
-//             {/* <img src="" alt=""/> */}
-//       </div>
-//     </div>)
-  
-// }
-    
-  // render() {
-  //      return createPortal(
-  //      <div className={css.Overlay} >
-  //     <div className={css.Modal} >
-  //          <img src={this.propsLargeImg} alt="" width="800" height="600"/> 
-  //           {/* <img src="" alt=""/> */}
-  //     </div>
-  //   </div>,
-  //     modalRoot,)
-  // } 
-  // }
-
-
+// Варіант 2
 // class Modal extends Component {
-
-//   componentDidMount() {
-//     window.addEventListener(`keydown`, this.handelEscape);
-//   }
-
-//   componentWillUnmount() {
-//     window.removeEventListener(`keydown`, this.handelEscape);
-//   }
-
-//   handelEscape = (e) => {
-//     // if (e.target) {
-//     //   this.props.closeClick()
-//     // }
-//     if (e.code === `Escape`) {
-//       this.props.closeClick()
-//     }
-//   }
  
-//   handelBeckdropClick = (e) => {
-//     if (e.currentTarget === e.target) {
-//       this.props.closeClick()
+//    showModalLargeImg = () => {
+//         this.props.large();
 //     }
     
-//     // if (e.target) {
-//     //      if (e.target) {
-//     //    this.setState(modal => ({
-//     //   showModal: !modal.showModal
-//     // }))
-//     // }
-//     // }
-//   }
-//   // onClick = { this.handelBeckdropClick }
-//  ImageGalleryItem = ({item}) => {
+
+//     render() {
+//         return (
+//          <div className={css.Overlay}>
+//       <div className={css.Modal}> 
+//              {/* <img src={large} alt="" width="800" height="600"/> */}
+//               <img src={this.showModalLargeImg} alt="" width="800" height="600"/> 
+//       </div>
+//     </div>  
+//     )}
+// }
+
+
+// // Варіант3 
+// const Modal = ({large}) => {
 //   return (
-//     <img src={item.largeImageURL} alt="" width="800" height="600" onClick={this.toggalModal} />
-//   )
+//    <div className={css.Overlay}>
+//       <div className={css.Modal}> 
+//       <img src={large} alt="" width="800" height="600"/>   
+//       </div>
+//     </div>  
+//   );
 // }
-//   render() {
-//     return createPortal(
-//     <div className={css.Overlay} >
-//         <div className={css.Modal}>{this.props.children}</div>
-//       </div>,
-//       modalRoot,
-//     )
-//   }
-
-// }
-
-// // item.largeImageURL
-
 export default Modal;

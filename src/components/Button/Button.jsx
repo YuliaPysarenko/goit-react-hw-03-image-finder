@@ -12,7 +12,7 @@ class Button extends Component {
     render() {
         return (
             <div>
-            <button onClick={this.onButtonClick}  className={css.Button} type="button">Load more</button>
+            <button onClick={this.onButtonClick} className={css.Button} type="button">Load more</button>
         </div>  
     )}
 }
