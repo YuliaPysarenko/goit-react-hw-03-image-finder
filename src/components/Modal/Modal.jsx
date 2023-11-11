@@ -6,25 +6,25 @@ const modalRoot = document.querySelector(`#modal-root`);
 
 class Modal extends Component {
   state = {
-    showModal: false,
+    // showModal: false,
     // largeImage: '',
   }
   
-  componentDidMount() {
-    window.addEventListener(`keydown`, this.handelEscape);
-  }
+  // componentDidMount() {
+  //   window.addEventListener(`keydown`, this.handelEscape);
+  // }
 
-  componentWillUnmount() {
-    window.removeEventListener(`keydown`, this.handelEscape);
-  }
+  // componentWillUnmount() {
+  //   window.removeEventListener(`keydown`, this.handelEscape);
+  // }
 
-  handelEscape = (e) => {
-    if (e.code === `Escape`) {
-      this.setState({
-        showModal: false
-      })
-    }
-  }
+  // handelEscape = (e) => {
+  //   if (e.code === `Escape`) {
+  //     this.setState({
+  //       showModal: false
+  //     })
+  //   }
+  // }
   
   //   toggalModal = () => {
   //     this.setState(modal => ({
@@ -63,20 +63,23 @@ class Modal extends Component {
 //       // showModal: true
 //  })
 //   }
-     showModalLargeImg = () => {
-       this.props.large();
-       console.log(this.props.large)
-    }
+   
+  
+    //  showModalLargeImg = () => {
+     
+    //    console.log(this.props.large)
+    //    this.props.large();
+    // }
   
   render() {
-    const { large } = this.props;
-    console.log(this.props.large)
+     const { large } = this.props;
+    //  console.log(this.props.large)
     
        return createPortal(
        <div className={css.Overlay}>
       <div className={css.Modal}> 
        {/* <img src={large} alt="" width="800" height="600"/>  */}
-      <img src={this.showModalLargeImg} alt="" width="800" height="600"/>
+      <img src={this.props.large} alt="" width="800" height="600"/>
        
       </div>
     </div>,
