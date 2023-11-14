@@ -1,4 +1,4 @@
-//  import React , {Component} from "react";
+//  import React from "react";
 // / const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
 // import axios from "axios";  
 const ipa_key= `37860129-0a816fc38343337d9878906bd`

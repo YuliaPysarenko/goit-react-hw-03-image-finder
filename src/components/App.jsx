@@ -7,7 +7,7 @@ import Modal from "./Modal";
 import PixabayIpa from "./servises/pixabay-api"
 
 // const pixabayIpa = new PixabayIpa();
-// const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
+//  const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
 
 class App extends Component {
  
@@ -27,7 +27,7 @@ class App extends Component {
   componentDidUpdate(_, prevState) {
     const {name,page,totalHits} = this.state
     // if ( prevState.name !== name || prevState.page !== page) {
-    //   this.onFetchPixabey().then(() => {
+    //   this.onFetchPixabey(name, page).then(() => {
     //     if (totalHits > 0) {
     //       this.remainderInTotalHits();
     //     }
@@ -35,9 +35,10 @@ class App extends Component {
     // }
 
     if (prevState.name !== name || prevState.page !== page) {
-      this.onFetchPixabey()
-         if (totalHits > 0) {
-          this.remainderInTotalHits();
+      this.onFetchPixabey(name, page)
+        if (totalHits > 0) {
+          // this.onFetchPixabey(name,page)
+           this.remainderInTotalHits();    
         }
     }
      };
@@ -71,11 +72,11 @@ class App extends Component {
   
 
    onFetchPixabey = () => {
-    //  const { name, page } = this.state;
+     const { name, page } = this.state;
      this.setState({ status: 'pending' });
 
      PixabayIpa
-     .fetchPyxabay()
+     .fetchPyxabay(name,page)
       .then(data => {
         this.setState(prevState => ({
           items: [...prevState.items, ...data.hits],
