@@ -4,9 +4,10 @@ import ImageGallery from "./ImageGallery";
 import Button from "./Button";
 import Loader from "./Loader";
 import Modal from "./Modal";
-// import css from "./App.module.css"
-// import * as basicLightbox from 'basiclightbox'
-const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
+import PixabayIpa from "./servises/pixabay-api"
+
+// const pixabayIpa = new PixabayIpa();
+// const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
 
 class App extends Component {
  
@@ -16,51 +17,106 @@ class App extends Component {
     totalHits: 0,
     page: 1,
     per_page: 12,
-    total: 0,
-    loading: false,
+    // total: 0,
+    // loading: false,
     showButton: false,
-    showModal: false,
-    largeImg: ''
+    largeImg: '',
+    status: 'idle'
   }
 
   componentDidUpdate(_, prevState) {
-    if (
-      prevState.name !== this.state.name ||
-      prevState.page !== this.state.page
-    ) {
-      this.onFetchPixabey().then(() => {
-        if (this.state.totalHits > 0) {
+    const {name,page,totalHits} = this.state
+    // if ( prevState.name !== name || prevState.page !== page) {
+    //   this.onFetchPixabey().then(() => {
+    //     if (totalHits > 0) {
+    //       this.remainderInTotalHits();
+    //     }
+    //   });
+    // }
+
+    if (prevState.name !== name || prevState.page !== page) {
+      this.onFetchPixabey()
+         if (totalHits > 0) {
           this.remainderInTotalHits();
         }
-      });
     }
-  }
+     };
+    
+      
+    // const {totalHits} = await fetchPyxabay(name, page)
+    //     if (totalHits > 0) {
+    //       this.remainderInTotalHits();
+    //     }
+    // }
   
-  onFetchPixabey = () => {
-    this.setState({ loading: true });
-    return fetch(
-      `https://pixabay.com/api/?q=${this.state.name}&page=${this.state.page}&key=${IPA_KEY}&image_type=photo&orientation=horizontal&per_page=${this.state.per_page}`
-    )
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(
-          new Error(
-            `Нажаль картинок з вашим пошуком ${this.state.name}, не має`
-          )
-        );
-      })
+  
+  // onFetchPixabey = async () => {
+  //   this.setState({ loading: true });
+  //   const { name, page} = this.state;
+
+  //   try {
+  //     await fetchPyxabay(name, page)
+  //     .then(data => {
+  //       this.setState(prevState => ({
+  //         items: [...prevState.items, ...data.hits],
+  //         totalHits: data.totalHits,
+  //         showButton: true,
+  //       }));
+  //     })
+  //   }
+  //   catch {
+  //    (error => this.setState({ error }))
+  //   }
+  // };
+  
+
+   onFetchPixabey = () => {
+    //  const { name, page } = this.state;
+     this.setState({ status: 'pending' });
+
+     PixabayIpa
+     .fetchPyxabay()
       .then(data => {
         this.setState(prevState => ({
           items: [...prevState.items, ...data.hits],
           totalHits: data.totalHits,
           showButton: true,
+          status:'resolved'
         }));
       })
-      .catch(error => this.setState({ error }))
-      .finally(() => this.setState({ loading: false }));
+      .catch(error => this.setState({ error, status: 'rejected' }))
   };
+
+
+
+  //   onFetchPixabey = () => {
+  // //   this.setState({loading:true});
+  //   this.setState({status: 'pending'});
+  //   const {name,page,per_page} = this.state
+  //   return fetch(
+  //     `https://pixabay.com/api/?q=${name}&page=${page}&key=${IPA_KEY}&image_type=photo&orientation=horizontal&per_page=${per_page}`
+  //   )
+  //     .then(response => {
+  //       if (response.ok) {
+  //         return response.json();
+  //       }
+  //       return Promise.reject(
+  //         new Error(
+  //           `Нажаль картинок з вашим пошуком ${name}, не має`
+  //         )
+  //       );
+  //     })
+  //     .then(data => {
+  //       this.setState(prevState => ({
+  //         items: [...prevState.items, ...data.hits],
+  //         totalHits: data.totalHits,
+  //         showButton: true,
+  //         status:'resolved'
+  //       }));
+  //     })
+  //     .catch(error => this.setState({ error, status: 'rejected' }))
+  //     // .finally(() => this.setState({ loading: false }));
+  // };
 
   remainderInTotalHits = () => {
     const { totalHits, items } = this.state;
@@ -89,51 +145,55 @@ class App extends Component {
   largeImage = (largeImageURL) => {
     this.setState({
       largeImg: largeImageURL,
-      //  showModal: true,
     })
-
-      // this.props.large(this.state.largeImg);
-  //  this.toggalModal()  
   }
-
-  // toggalModal = () => {
-  //     this.setState(({showModal}) => ({
-  //       showModal: !showModal
-  //     }))
-  // }  
   
-//   propsLargeImg = () => {
-//     // if (this.state.largeImg !== '') {
-//     // //   this.setState({
-//     // //   showModal: true
-//     // // })
-//     //   this.toggalModal()
-//     // }
-//   this.props.large(this.state.largeImg);
-// }
+  toggalModal = () => {
+    if (this.state.largeImg !== '') {
+      this.setState({
+      largeImg: ''
+ })
+    }  
+  }  
 
   render() {
-    const { items, loading, error,showButton,largeImg} = this.state;
-   return (
-      <div>
-        <Searchbar onSubmit={this.handleFormSabmit}/>
-        {error && <div><p>{error.message}</p></div>}
-        {loading && <Loader />}
-        {items && <ImageGallery items={items} onOpenLarge={this.largeImage}/>}
-        {showButton && <Button onLoadMore={this.incrementPage}/>}
-      {/* { largeImg && <Modal large={largeImg}/>}  */}     
-       {/* {this.state.largeImg && <Modal large={largeImg}/>}   */}
-            {/* {largeImg &&  <div className={css.Overlay} >
-      <div className={css.Modal}>
-      <img src={largeImg} alt="" width="800" height="600"/>
+    const { items, error, showButton, largeImg, status } = this.state;
+    
+    if (status === 'idle') {
+       return <Searchbar onSubmit={this.handleFormSabmit} />
+    }
+
+    if (status === 'rejected') {
+      return <div><p>{error.message}</p></div>
+    }
+
+    if (status === 'pending') {
+      return <Loader/>
+    }
+     
+    if (status === 'resolved') { 
+ 
+     return <div>
+      {items && <ImageGallery items={items} onOpenLarge={this.largeImage}/>}
+      {showButton && <Button onLoadMore={this.incrementPage} />}
+       {largeImg && <Modal closeModal={this.toggalModal}>
+         <img src={largeImg} alt="" width="800" height="600" />
+       </Modal>}
       </div>
-    </div>}   */} 
-       {largeImg && <Modal large={largeImg} />}
-       {console.log(this.props.large)}
-      
-       
-      </div>
-    )
+    }
+    // return (
+     
+    //   <div>
+    //    <Searchbar onSubmit={this.handleFormSabmit} />
+    //     {error && <div><p>{error.message}</p></div>}
+    //     {loading && <Loader />}
+    //     {items && <ImageGallery items={items} onOpenLarge={this.largeImage}/>}
+    //     {showButton && <Button onLoadMore={this.incrementPage}/>}
+    //    {/* {largeImg && <Modal large={largeImg} closeModal={this.toggalModal} />}        */}
+    //    {largeImg && <Modal closeModal={this.toggalModal}><img src={largeImg} alt="" width="800" height="600" />
+    //    </Modal>}
+    //   </div>
+    // )
   }
 }
 
