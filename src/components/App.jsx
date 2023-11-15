@@ -26,21 +26,21 @@ class App extends Component {
 
   componentDidUpdate(_, prevState) {
     const {name,page,totalHits} = this.state
-    // if ( prevState.name !== name || prevState.page !== page) {
-    //   this.onFetchPixabey(name, page).then(() => {
-    //     if (totalHits > 0) {
-    //       this.remainderInTotalHits();
-    //     }
-    //   });
-    // }
-
-    if (prevState.name !== name || prevState.page !== page) {
-      this.onFetchPixabey(name, page)
+    if ( prevState.name !== name || prevState.page !== page) {
+      this.onFetchPixabey(name, page).then(() => {
         if (totalHits > 0) {
-          // this.onFetchPixabey(name,page)
-           this.remainderInTotalHits();    
+          this.remainderInTotalHits();
         }
+      });
     }
+
+    // if (prevState.name !== name || prevState.page !== page) {
+    //   this.onFetchPixabey(name, page)
+    //     if (totalHits > 0) {
+    //       // this.onFetchPixabey(name,page)
+    //        this.remainderInTotalHits();    
+    //     }
+    // }
      };
     
       
