@@ -6,9 +6,6 @@ import Loader from "./Loader";
 import Modal from "./Modal";
 import PixabayIpa from "./servises/pixabay-api"
 
-// const pixabayIpa = new PixabayIpa();
-//  const IPA_KEY = `37860129-0a816fc38343337d9878906bd`;
-
 class App extends Component {
  
   state = {
@@ -17,8 +14,6 @@ class App extends Component {
     totalHits: 0,
     page: 1,
     per_page: 12,
-    // total: 0,
-    // loading: false,
     showButton: false,
     largeImg: '',
     status: 'idle'
@@ -33,49 +28,14 @@ class App extends Component {
         }
       });
     }
-
-    // if (prevState.name !== name || prevState.page !== page) {
-    //   this.onFetchPixabey(name, page)
-    //     if (totalHits > 0) {
-    //       // this.onFetchPixabey(name,page)
-    //        this.remainderInTotalHits();    
-    //     }
-    // }
      };
     
-      
-    // const {totalHits} = await fetchPyxabay(name, page)
-    //     if (totalHits > 0) {
-    //       this.remainderInTotalHits();
-    //     }
-    // }
-  
-  
-  // onFetchPixabey = async () => {
-  //   this.setState({ loading: true });
-  //   const { name, page} = this.state;
-
-  //   try {
-  //     await fetchPyxabay(name, page)
-  //     .then(data => {
-  //       this.setState(prevState => ({
-  //         items: [...prevState.items, ...data.hits],
-  //         totalHits: data.totalHits,
-  //         showButton: true,
-  //       }));
-  //     })
-  //   }
-  //   catch {
-  //    (error => this.setState({ error }))
-  //   }
-  // };
-  
-
+   
    onFetchPixabey = () => {
      const { name, page } = this.state;
      this.setState({ status: 'pending' });
 
-     PixabayIpa
+    return PixabayIpa
      .fetchPyxabay(name,page)
       .then(data => {
         this.setState(prevState => ({
@@ -88,37 +48,6 @@ class App extends Component {
       .catch(error => this.setState({ error, status: 'rejected' }))
   };
 
-
-
-  //   onFetchPixabey = () => {
-  // //   this.setState({loading:true});
-  //   this.setState({status: 'pending'});
-  //   const {name,page,per_page} = this.state
-  //   return fetch(
-  //     `https://pixabay.com/api/?q=${name}&page=${page}&key=${IPA_KEY}&image_type=photo&orientation=horizontal&per_page=${per_page}`
-  //   )
-  //     .then(response => {
-  //       if (response.ok) {
-  //         return response.json();
-  //       }
-  //       return Promise.reject(
-  //         new Error(
-  //           `Нажаль картинок з вашим пошуком ${name}, не має`
-  //         )
-  //       );
-  //     })
-  //     .then(data => {
-  //       this.setState(prevState => ({
-  //         items: [...prevState.items, ...data.hits],
-  //         totalHits: data.totalHits,
-  //         showButton: true,
-  //         status:'resolved'
-  //       }));
-  //     })
-  //     .catch(error => this.setState({ error, status: 'rejected' }))
-  //     // .finally(() => this.setState({ loading: false }));
-  // };
-
   remainderInTotalHits = () => {
     const { totalHits, items } = this.state;
     const countOfNotRenderesItems = totalHits - items.length;
@@ -130,10 +59,6 @@ class App extends Component {
   incrementPage = () => {
     this.setState(prevState => ({ page: prevState.page + 1 }));
   }
-
-  // resetPage = () => {
-  //   this.state.page = 1;
-  // }
 
   handleFormSabmit = nameForm => {
     this.setState({

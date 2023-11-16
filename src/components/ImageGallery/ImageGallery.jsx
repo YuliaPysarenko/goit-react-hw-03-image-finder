@@ -18,21 +18,6 @@ const ImageGallery = ({items, onOpenLarge }) => {
   );
 }
 
-// function ImageGallery ({items, onOpenLarge }) {
-//   return (
-//     <ul className={css.ImageGallery}>
-//       {items.map(({ id, largeImageURL, webformatURL}) => (
-//       <ImageGalleryItem
-//           key={id}
-//           largeImageURL={largeImageURL}
-//           webformatURL={webformatURL}
-//           openLargeImg={onOpenLarge}
-//         /> ))}
-//     </ul>
-//   );
-// }
-
-
 ImageGallery.protoType = {
   items: PropTypes.arrayOf(
     PropTypes.exact({
