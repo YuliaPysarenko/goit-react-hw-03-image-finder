@@ -7,9 +7,9 @@ import css from './ImageGallery.module.css';
 const ImageGallery = ({items, onOpenLarge }) => {
   return (
     <ul className={css.ImageGallery}>
-      {items.map(({ id, largeImageURL, webformatURL}) => (
-      <ImageGalleryItem
-          key={id}
+      {items.map(({id, largeImageURL, webformatURL}) => (
+        <ImageGalleryItem
+          key ={id}
           largeImageURL={largeImageURL}
           webformatURL={webformatURL}
           openLargeImg={onOpenLarge}

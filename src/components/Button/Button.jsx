@@ -1,21 +1,31 @@
-import { Component } from 'react';
+// import { Component } from 'react';
 import css from './Button.module.css';
 import PropTypes from 'prop-types';
 
-class Button extends Component {
+// class Button extends Component {
  
-   onButtonClick = () => {
-        this.props.onLoadMore();
-    }
+//    onButtonClick = () => {
+//         this.props.onLoadMore();
+//     }
     
 
-    render() {
-        return (
+//     render() {
+//         return (
+//             <div>
+//             <button onClick={this.onButtonClick} className={css.Button} type="button">Load more</button>
+//         </div>
+//     )}
+// }
+
+
+const Button = ({ onLoadMore }) => {
+      return (
             <div>
-            <button onClick={this.onButtonClick} className={css.Button} type="button">Load more</button>
+            <button onClick={() => onLoadMore()} className={css.Button} type="button">Load more</button>
         </div>  
-    )}
+    )
 }
+
 
 Button.protoType = {
   onLoadMore: PropTypes.func.isRequired,
